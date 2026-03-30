@@ -1,0 +1,16 @@
+html, body{
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+div.top_bar{
+    display: flex;
+    border: 1px solid black;
+    background-color: rgb(240, 219, 173);
+}
+
+div.top_bar_buttons{
+    margin-left: auto;
+    margin-right: 3%;
+}
