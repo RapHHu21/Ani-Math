@@ -10,7 +10,11 @@ div.top_bar{
     background-color: rgb(240, 219, 173);
 }
 
-div.top_bar_buttons{
+div.top_bar_controls{
     margin-left: auto;
     margin-right: 3%;
+}
+
+footer{
+    text-align: center;
 }
