@@ -4,15 +4,28 @@ html, body{
     height: 100%;
 }
 
+h1.hello_world{
+    display: flex;
+    text-align: center;
+    margin-right: auto;
+    margin-left: auto;
+}
+
 div.top_bar{
     display: flex;
     border: 1px solid black;
     background-color: rgb(240, 219, 173);
+    align-items: center;
 }
 
 div.top_bar_controls{
     margin-left: auto;
     margin-right: 3%;
+}
+
+div.top_bar_text{
+    margin-left: 3%;
+    margin-right: auto;
 }
 
 footer{
