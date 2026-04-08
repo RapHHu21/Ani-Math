@@ -16,6 +16,13 @@ p {
   font-size: 1.5rem;
 }
 
+.login, .active{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
 .container {
   padding: 40px;
   border-radius: 16px;

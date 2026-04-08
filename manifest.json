@@ -1,6 +1,6 @@
 {
-  "name": "Math Learning App",
-  "short_name": "MathApp",
+  "name": "Ani-Math",
+  "short_name": "Ani-Math",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#ffffff",

@@ -10,7 +10,7 @@ function generateQuestion() {
 function login() {
   const user = document.getElementById('username').value;
   if (user) {
-    localStorage.setItem('user', user);
+    //localStorage.setItem('user', user);
     showApp(user);
   }
 }
@@ -39,10 +39,14 @@ window.onload = () => {
   document.getElementById('loginBtn').addEventListener('click', login);
   document.getElementById('submitBtn').addEventListener('click', checkAnswer);
 
-  const user = localStorage.getItem('user');
-  if (user) showApp(user);
+  //const user = localStorage.getItem('user');
 
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js');
-  }
+  //localStorage.clear(); --- clear ls if logout
+
+  //if (user) showApp(user);
+
+//   if ('serviceWorker' in navigator) {
+//     navigator.serviceWorker.register('sw.js');
+//   }
+// commented cuz cached files breaks my css
 };
