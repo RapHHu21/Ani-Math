@@ -18,9 +18,27 @@ function login() {
 			console.log('i will remember you next time');
 			localStorage.setItem('user', user);
 			localStorage.setItem('password', password);
-		}
-	  
+		}	  
       showApp(user);
+    }
+}
+
+let initial_value = 0;
+function showPasword(){
+    const password = document.getElementById('password');
+    const button = document.getElementById('showPass');
+    const eyeIcon = document.getElementById('passwordEye');
+    const eyeTable = ['assets/icons/eyeClosed.png', 'assets/icons/eyeOpen.png'];
+
+    if(button.click){
+        initial_value = initial_value ^ 1;
+        if (initial_value === 1){
+            eyeIcon.src = eyeTable[initial_value%2];
+            password.type = 'text';
+        }else if (initial_value === 0){
+            eyeIcon.src = eyeTable[initial_value%2];
+            password.type = 'password';
+        }
     }
 }
 
@@ -30,6 +48,11 @@ function showApp(user) {
     document.getElementById('app').classList.remove('hidden');
     document.getElementById('welcome').innerText = 'Welcome ' + user;
     generateQuestion();
+}
+
+function showRegister() {
+    document.getElementById('loginPanel').classList.add('hidden');
+    document.getElementById('registerPanel').classList.remove('hidden');
 }
 
 function checkAnswer() {
@@ -48,6 +71,8 @@ function checkAnswer() {
 window.onload = () => {
     document.getElementById('loginBtn').addEventListener('click', login);
     document.getElementById('submitBtn').addEventListener('click', checkAnswer);
+    document.getElementById('showPass').addEventListener('click', showPasword);
+    document.getElementById('registerBtn').addEventListener('click', showRegister);
 	//document.getElementById('rememberMe').addEventListener('click', rememberCheck);
 
     const user = localStorage.getItem('user');
