@@ -1,5 +1,7 @@
 let correctAnswer = 0;
 
+document.getElementById('err_msg_id').textContent = "cwel";
+
 function generateQuestion() {
     const a = Math.floor(Math.random() * 10);
     const b = Math.floor(Math.random() * 10);
@@ -10,7 +12,7 @@ function generateQuestion() {
 function login() {
     const user = document.getElementById('username').value;
     const password = document.getElementById('password').value;
-    if (user && password) {
+    if (user && password) { //change to function that checks this with node
 		console.log(password);
 		const rembChck = document.getElementById('rememberMe');
 		console.log('step1');
@@ -22,6 +24,12 @@ function login() {
       showApp(user);
     }
 }
+
+function register(){
+    //do stuff
+    showApp();
+}
+
 
 let initial_value = 0;
 function showPasword(){
@@ -45,6 +53,7 @@ function showPasword(){
 
 function showApp(user) {
     document.getElementById('loginPanel').classList.add('hidden');
+    document.getElementById('registerPanel').classList.add('hidden');
     document.getElementById('app').classList.remove('hidden');
     document.getElementById('welcome').innerText = 'Welcome ' + user;
     generateQuestion();
@@ -56,14 +65,16 @@ function showRegister() {
 }
 
 function checkAnswer() {
-    const answer = document.getElementById('answer').value;
+    const answer = document.getElementById('answer');
     const img = document.getElementById('resultImg');
 
-    if (Number(answer) === correctAnswer) {
-      img.style.display = 'block';
-      generateQuestion();
+    if (Number(answer.value) === correctAnswer) {
+        img.style.display = 'block';
+        generateQuestion();
+        answer.value = "";
     } else {
-      alert('Try again!');
+        alert('Try again!');
+        answer.value = "";
     }
 }
 
@@ -73,6 +84,7 @@ window.onload = () => {
     document.getElementById('submitBtn').addEventListener('click', checkAnswer);
     document.getElementById('showPass').addEventListener('click', showPasword);
     document.getElementById('registerBtn').addEventListener('click', showRegister);
+    document.getElementById('registerMeID').addEventListener('click', register);
 	//document.getElementById('rememberMe').addEventListener('click', rememberCheck);
 
     const user = localStorage.getItem('user');

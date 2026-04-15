@@ -13,7 +13,7 @@
     <div id="loginPanel" class="login">
       <h3>Login</h3>
       <input type="text" id="username" placeholder="Username"><br>
-      <div class="testDiv">
+      <div class="passwordDiv">
         <input type="password" id="password" placeholder="Password" autocomplete="off"/>
         <label class="containerPass">
           <img id="passwordEye" class="passwordEye" src="assets/icons/eyeClosed.png"/>
@@ -30,11 +30,23 @@
     </div>
 
     <div id="registerPanel" class="register hidden active">
-      <input type="text" name="" id="username_reg" placeholder="Username">
-      <input type="text" name="" id="email_reg" placeholder="Email">
-      <input type="password" name="" id="password_reg" placeholder="Password">
-      <input type="password" name="" id="password_regConf" placeholder="Confirm Password">
-      <button>Sign up</button>
+      <div>
+        <input type="text" name="" id="username_reg" placeholder="Username">
+        <p class="err_msg" id="err_msg_id"><i>Niepoprawna nazwa uzytkownika</i></p>
+      </div>
+      <div>
+        <input type="text" name="" id="email_reg" placeholder="Email">
+        <p class="err_msg" id="err_msg_id">s</p>
+      </div>
+      <div>
+        <input type="password" name="" id="password_reg" placeholder="Password" autocomplete="off">
+        <p class="err_msg" id="err_msg_id">s</p>
+      </div>
+      <div>
+        <input type="password" name="" id="password_regConf" placeholder="Confirm Password" autocomplete="off">
+        <p class="err_msg" id="err_msg_id">s</p>
+      </div>
+      <button class="registerMe" id="registerMeID">Sign up</button>
     </div>
 
     <div id="app" class="hidden active">
