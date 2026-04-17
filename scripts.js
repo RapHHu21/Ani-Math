@@ -92,24 +92,43 @@ function register(){
 
 
 let initial_value = 0;
-function showPasword(){
-    const password = document.getElementById('password');
+const eyeIcon = document.querySelectorAll('.passwordEye');
+const eyeTable = ['assets/icons/eyeClosed.png', 'assets/icons/eyeOpen.png'];
+const password = document.getElementById('password');
+function changePasswordVis(){
     const button = document.getElementById('showPass');
-    const eyeIcon = document.getElementById('passwordEye');
-    const eyeTable = ['assets/icons/eyeClosed.png', 'assets/icons/eyeOpen.png'];
 
     if(button.click){
         initial_value = initial_value ^ 1;
         if (initial_value === 1){
-            eyeIcon.src = eyeTable[initial_value%2];
-            password.type = 'text';
+            showPassword();
+            initial_value = 1;
         }else if (initial_value === 0){
-            eyeIcon.src = eyeTable[initial_value%2];
-            password.type = 'password';
+            hidePassword();
+            initial_value = 0;
         }
     }
 }
 
+function hidePassword(){
+    initial_value = 0;
+    eyeIcon.forEach(element => {
+        element.src = eyeTable[0];                
+    });
+    password.type = 'password';
+    password_reg.type = 'password';
+    password_reg_check.type = 'password';
+}
+
+function showPassword(){
+    initial_value = 1;
+    eyeIcon.forEach(element => {
+        element.src = eyeTable[1];
+    });
+    password.type = 'text';
+    password_reg.type = 'text';
+    password_reg_check.type = 'text';
+}
 
 function showApp(user) {
     document.getElementById('loginPanel').classList.add('hidden');
@@ -122,7 +141,8 @@ function showApp(user) {
     generateQuestion();
 }
 
-function showRegister() {
+function showRegister() { 
+    hidePassword();   
     document.getElementById('loginPanel').classList.add('hidden');
     document.getElementById('registerPanel').classList.remove('hidden');
 }
@@ -145,13 +165,16 @@ function checkAnswer() {
 window.onload = () => {
     document.getElementById('loginBtn').addEventListener('click', login);
     document.getElementById('submitBtn').addEventListener('click', checkAnswer);
-    document.getElementById('showPass').addEventListener('click', showPasword);
+    const showPasses = document.querySelectorAll('.showPassClass');
+    showPasses.forEach(element => {
+        element.addEventListener('click', changePasswordVis)
+    });
     document.getElementById('registerBtn').addEventListener('click', showRegister);
     document.getElementById('registerMeID').addEventListener('click', register);
     email_reg.addEventListener('input', validateEmail);
     password_reg.addEventListener('input', validatePassword);
     password_reg_check.addEventListener('input', validateCheckPassword);
-    username_reg.addEventListener('input', validateUsername)
+    username_reg.addEventListener('input', validateUsername);
 	//document.getElementById('rememberMe').addEventListener('click', rememberCheck);
 
     const user = localStorage.getItem('user');

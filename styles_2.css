@@ -1,4 +1,4 @@
-.containerChBx, .containerPass {  
+.containerChBx, .containerPass, .containerPassReg {  
   display: block;
   position: relative;
   padding-left: 35px;
@@ -11,7 +11,7 @@
   user-select: none;
 }
 
-.containerChBx input, .containerPass input {
+.containerChBx input, .containerPass input, .containerPassReg input {
   position: absolute;
   opacity: 0;
   cursor: pointer;
@@ -36,11 +36,19 @@
   background-color: #ccc;
 }
 
+.containerPassReg:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
 .containerChBx input:checked ~ .checkmark {
   background-color: #2196F3;
 }
 
 .containerPass input:checked ~ .checkmark {
+  background-color: #2196F3;
+}
+
+.containerPassReg input:checked ~ .checkmark {
   background-color: #2196F3;
 }
 
@@ -56,8 +64,11 @@
 .containerPass input:checked ~.checkmark:after{
   display: block;
 }
+.containerPassReg input:checked ~.checkmark:after{
+  display: block;
+}
 
-.containerPass .checkmark:after, .containerChBx .checkmark:after {
+.containerPass .checkmark:after, .containerChBx .checkmark:after, .containerPassReg .checkmark::after {
   left: 9px;
   top: 5px;
   width: 5px;
