@@ -1,13 +1,30 @@
-const http = require('http');
 const express = require('express');
 const bcryptjs = require('bcryptjs');
+const cors = require('cors');
+const app = express();
 
-const server = http.createServer((request, resposne)=>{
-    let message = "piwo123";
-    let hashMsg = bcryptjs.hashSync(message, 10);
-    resposne.write("siemka");
-    console.log(hashMsg + " :hash1");
-    resposne.end();
+app.use(cors());
+app.use(express.json());
+app.use(express.text());
+
+
+app.listen(8888, ()=>{
+    console.log('uwu');
+});
+
+app.get("/elo", (req, res)=>{
+    console.log("uwu2");
+    res.send("uwu");
 })
 
-server.listen(8080);
+app.get('/',(req, res)=>{
+    let message = "piwo123";
+    let hashMsg = bcryptjs.hashSync(message, 10);
+    res.write("siemka");
+    console.log(hashMsg + " :hash1");
+});
+
+app.get('/testMsg', (req, res)=>{
+    console.log("hejka");
+    res.status(200).send("OK");
+});

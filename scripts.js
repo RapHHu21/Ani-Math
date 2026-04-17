@@ -1,6 +1,7 @@
 let correctAnswer = 0;
-
-document.getElementById('err_msg_id').textContent = "cwel";
+const server_address = "http://127.0.0.1:8888";
+const email_regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
 
 function generateQuestion() {
     const a = Math.floor(Math.random() * 10);
@@ -25,9 +26,68 @@ function login() {
     }
 }
 
+async function sendRequestTest(){
+    return await fetch(server_address+"/testMsg",{
+        method: "GET"
+    }).then((res)=>res);
+}
+
+let username_check = 0;
+const username_reg = document.getElementById('username_reg');
+function validateUsername(){
+    if(username_reg.value !== ""){
+        username_check = 1;
+    }
+}
+
+let email_check = 0;
+const email_reg = document.getElementById('email_reg');
+function validateEmail(){
+    const email_err = document.getElementById("err_email");      
+    if(email_regex.test(email_reg.value)){
+        console.log('valid');
+        email_check = 1;    
+        email_err.textContent = "";
+    }else{
+        email_err.textContent = "Niepoprawny email";        
+        email_check = 0;
+    } 
+}
+
+const password_reg =  document.getElementById('password_reg');
+function validatePassword(){
+    const pass_err = document.getElementById("err_pass");
+    if(passwordRegex.test(password_reg.value)){
+        console.log("nie cwel");
+        pass_err.textContent = "";
+    } else{
+        pass_err.textContent = "Haslo powinno miec 1 duza litere, 1 cyfre oraz min 6 znakow"
+    }
+}
+
+let password_check = 0;
+const password_reg_check = document.getElementById('password_regConf');
+function validateCheckPassword(){
+    const passCheck_err = document.getElementById('err_passCheck');
+    if(password_reg_check.value === password_reg.value){        
+        passCheck_err.textContent = "";
+        password_check = 1
+    }else{
+        passCheck_err.textContent = "Hasla sie nie zgadzaja";
+        password_check = 0;
+    }
+}
+
+
 function register(){
+    const sumCheck = 3;
+    let sum = email_check + password_check + username_check;
+    console.log(sum)
+
     //do stuff
-    showApp();
+    if(sumCheck === sum){
+        showApp(username_reg.value);
+    }
 }
 
 
@@ -56,6 +116,9 @@ function showApp(user) {
     document.getElementById('registerPanel').classList.add('hidden');
     document.getElementById('app').classList.remove('hidden');
     document.getElementById('welcome').innerText = 'Welcome ' + user;
+    sendRequestTest().then(()=>{
+        console.log("1");
+    });
     generateQuestion();
 }
 
@@ -85,6 +148,10 @@ window.onload = () => {
     document.getElementById('showPass').addEventListener('click', showPasword);
     document.getElementById('registerBtn').addEventListener('click', showRegister);
     document.getElementById('registerMeID').addEventListener('click', register);
+    email_reg.addEventListener('input', validateEmail);
+    password_reg.addEventListener('input', validatePassword);
+    password_reg_check.addEventListener('input', validateCheckPassword);
+    username_reg.addEventListener('input', validateUsername)
 	//document.getElementById('rememberMe').addEventListener('click', rememberCheck);
 
     const user = localStorage.getItem('user');
