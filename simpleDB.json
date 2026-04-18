@@ -12,44 +12,19 @@
             "emailS": "pawel@mail.pl"
         },
         {
-            "usernameS": "Tadam",
-            "passwordS": "Tadam123",
-            "emailS": "Tadam@mail.pl"
-        },
-        {
-            "usernameS": "Tadam",
-            "passwordS": "Tadam123",
-            "emailS": "Tadam@mail.pl"
-        },
-        {
-            "usernameS": "Tadam",
-            "passwordS": "Tadam123",
-            "emailS": "Tadam@mail.pl"
-        },
-        {
-            "usernameS": "Tadam",
-            "passwordS": "Tadam123",
-            "emailS": "Tadam@mail.pl"
-        },
-        {
-            "usernameS": "Tadam",
-            "passwordS": "Tadam123",
-            "emailS": "Tadam@mail.pl"
-        },
-        {
-            "username": "Tadam",
-            "password": "Tadam123",
-            "email": "Tadam@mail.pl"
-        },
-        {
-            "username": "testUse",
-            "password": "Test123",
-            "email": "test@t.pl"
-        },
-        {
             "username": "testUser2",
             "password": "Test1234",
             "email": "testuser2@mail.pl"
+        },
+        {
+            "username": "adamA",
+            "password": "Adam1234",
+            "email": "adamA@mail.pl"
+        },
+        {
+            "username": "stefan",
+            "password": "Adam123",
+            "email": "piwo@piwo.pl"
         }
     ]
 }

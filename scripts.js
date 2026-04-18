@@ -2,6 +2,10 @@ let correctAnswer = 0;
 const server_address = "http://127.0.0.1:8888";
 const email_regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;
+const apiUrl = "https://nekos.best/api/v2/";
+const goodReact = ["clap", "smile", "highfive", "thumbsup", "nod"];
+const badReact = ["bleh","bored","facepalm","angry", "nope"];
+
 
 function generateQuestion() {
     const a = Math.floor(Math.random() * 10);
@@ -10,25 +14,27 @@ function generateQuestion() {
     document.getElementById('question').innerText = `Solve: ${a} + ${b} = ?`;
 }
 
+const userLogin = document.getElementById('username');
+const passwordLogin = document.getElementById('password');
 async function login() {
-    const user = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
     const login_err = document.getElementById('err_login');
 
     try{
-        const isGood = await checkCredentials(user, password);
+        const isGood = await checkCredentials(userLogin.value, passwordLogin.value);
         //console.log(isGood + " :is good");
     
         if (isGood === 1) {
             const rembChck = document.getElementById('rememberMe');
             if(rembChck.checked){
                 console.log('i will remember you next time');
-                localStorage.setItem('user', user);
-                localStorage.setItem('password', password);
+                localStorage.setItem('user', userLogin.value);
+                localStorage.setItem('password', passwordLogin.value);
             }	  
-          showApp(user);
+          showApp(userLogin.value);
+          clearLogin();
         } else {
             login_err.textContent = "Niepoprawne dane przy logowaniu";
+            clearLogin();
         }
     } catch (error){
         console.log(error);
@@ -37,6 +43,11 @@ async function login() {
             login_err.textContent = "";
         }, 5000);
     }
+}
+
+function clearLogin(){
+    userLogin.value = "";
+    passwordLogin.value = "";
 }
 
 async function checkCredentials(username, password) {
@@ -142,9 +153,7 @@ function register(){
     
     const sumCheck = 3;
     let sum = email_check + password_check + username_check;
-    console.log(sum +" :checksum")
-    registerUser("Tadam", "Tadam123", "Tadam@mail.pl");
-    //do stuff
+    console.log(sum + " :checksum");
     if(sumCheck === sum){
         showApp(username_reg.value);
         registerUser(username_reg.value, password_reg.value, email_reg.value);
@@ -206,6 +215,16 @@ function showPassword(){
     password_reg_check.type = 'text';
 }
 
+function logOut(){
+    hideApp();
+}
+
+function hideApp(){
+    document.getElementById('loginPanel').classList.remove('hidden');
+    document.getElementById('app').classList.add('hidden');
+    document.getElementById('welcome').innerText = 'Welcome ' + user;
+}
+
 function showApp(user) {
     document.getElementById('loginPanel').classList.add('hidden');
     document.getElementById('registerPanel').classList.add('hidden');
@@ -223,24 +242,49 @@ function showRegister() {
     document.getElementById('registerPanel').classList.remove('hidden');
 }
 
+function getResponse(reaction){
+    return axios.get(apiUrl + reaction)
+        .then(response => response.data.results[0].url);
+}
+
+function getCategory(type){
+    if(type === "good"){
+        const a = Math.floor(Math.random() * 4);
+        return goodReact[a];
+    }
+    if(type === "bad"){
+        const a = Math.floor(Math.random() * 4);
+        return badReact[a];
+    }
+}
+
 function checkAnswer() {
     const answer = document.getElementById('answer');
     const img = document.getElementById('resultImg');
 
     if (Number(answer.value) === correctAnswer) {
+        let react = getCategory("good");
+        getResponse(react).then(picUrl => {
+            img.src= picUrl;
+        });
         img.style.display = 'block';
         generateQuestion();
         answer.value = "";
     } else {
         alert('Try again!');
+        let react = getCategory("bad");
+        getResponse(react).then(picUrl => {
+            console.log(picUrl);
+            img.src= picUrl;
+        });
         answer.value = "";
     }
 }
 
-// Events
 window.onload = () => {
     document.getElementById('loginBtn').addEventListener('click', login);
     document.getElementById('submitBtn').addEventListener('click', checkAnswer);
+    document.getElementById('logoutBtn').addEventListener('click', logOut);
     const showPasses = document.querySelectorAll('.showPassClass');
     showPasses.forEach(element => {
         element.addEventListener('click', changePasswordVis)
