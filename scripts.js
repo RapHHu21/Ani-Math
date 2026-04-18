@@ -15,21 +15,27 @@ async function login() {
     const password = document.getElementById('password').value;
     const login_err = document.getElementById('err_login');
 
-    const isGood = await checkCredentials(user, password);
-    console.log(isGood + " :is good");
-
-    if (isGood === 1) { //change to function that checks this with node
-		console.log(password);
-		const rembChck = document.getElementById('rememberMe');
-		console.log('step1');
-		if(rembChck.checked){
-			console.log('i will remember you next time');
-			localStorage.setItem('user', user);
-			localStorage.setItem('password', password);
-		}	  
-      showApp(user);
-    } else {
-        login_err.textContent = "Niepoprawne dane przy logowaniu";
+    try{
+        const isGood = await checkCredentials(user, password);
+        //console.log(isGood + " :is good");
+    
+        if (isGood === 1) {
+            const rembChck = document.getElementById('rememberMe');
+            if(rembChck.checked){
+                console.log('i will remember you next time');
+                localStorage.setItem('user', user);
+                localStorage.setItem('password', password);
+            }	  
+          showApp(user);
+        } else {
+            login_err.textContent = "Niepoprawne dane przy logowaniu";
+        }
+    } catch (error){
+        console.log(error);
+        login_err.textContent = "Blad polaczenia";
+        setTimeout(()=>{
+            login_err.textContent = "";
+        }, 5000);
     }
 }
 
@@ -76,7 +82,7 @@ function userExists(){
 async function chcekUsername(isUsername){
     console.log('user being checked');
     const payload = {isUsername};
-    console.log(payload);    
+    console.log(payload + " :checking username");    
     const isUser = await fetch(server_address+"/isUserHere",{
         method: "POST",
         body: JSON.stringify(payload),
@@ -98,7 +104,7 @@ const email_reg = document.getElementById('email_reg');
 function validateEmail(){
     const email_err = document.getElementById("err_email");      
     if(email_regex.test(email_reg.value)){
-        console.log('valid');
+        console.log('valid email');
         email_check = 1;    
         email_err.textContent = "";
     }else{
@@ -111,7 +117,7 @@ const password_reg =  document.getElementById('password_reg');
 function validatePassword(){
     const pass_err = document.getElementById("err_pass");
     if(passwordRegex.test(password_reg.value)){
-        console.log("nie cwel");
+        console.log("password good");
         pass_err.textContent = "";
     } else{
         pass_err.textContent = "Haslo powinno miec 1 duza litere, 1 cyfre oraz min 6 znakow"
@@ -136,7 +142,7 @@ function register(){
     
     const sumCheck = 3;
     let sum = email_check + password_check + username_check;
-    console.log(sum)
+    console.log(sum +" :checksum")
     registerUser("Tadam", "Tadam123", "Tadam@mail.pl");
     //do stuff
     if(sumCheck === sum){
@@ -146,8 +152,7 @@ function register(){
 }
 
 async function registerUser(username, password, email){
-    const payload = {username, password, email};
-    console.log(payload);    
+    const payload = {username, password, email};    
     const res = await fetch(server_address+"/addUser",{
         method: "POST",
         body: JSON.stringify(payload),
@@ -157,7 +162,7 @@ async function registerUser(username, password, email){
     });
     
     if(res.status === 400){
-        console.log("hejooo");
+        console.log("res400");
         userExists();
     }
 }
@@ -207,7 +212,7 @@ function showApp(user) {
     document.getElementById('app').classList.remove('hidden');
     document.getElementById('welcome').innerText = 'Welcome ' + user;
     sendRequestTest().then(()=>{
-        console.log("1");
+        console.log("connection good");
     });
     generateQuestion();
 }
@@ -251,11 +256,6 @@ window.onload = () => {
     password_reg.addEventListener('input', validatePassword);
     password_reg_check.addEventListener('input', validateCheckPassword);
     username_reg.addEventListener('input', validateUsername);
-
-    window.addEventListener("beforeunload", () => {
-    console.log("PAGE IS RELOADING / LEAVING");
-    });
-	//document.getElementById('rememberMe').addEventListener('click', rememberCheck);
 
     const user = localStorage.getItem('user');
 	const password = localStorage.getItem('password');
