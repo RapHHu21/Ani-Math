@@ -10,10 +10,15 @@ function generateQuestion() {
     document.getElementById('question').innerText = `Solve: ${a} + ${b} = ?`;
 }
 
-function login() {
+async function login() {
     const user = document.getElementById('username').value;
     const password = document.getElementById('password').value;
-    if (user && password) { //change to function that checks this with node
+    const login_err = document.getElementById('err_login');
+
+    const isGood = await checkCredentials(user, password);
+    console.log(isGood + " :is good");
+
+    if (isGood === 1) { //change to function that checks this with node
 		console.log(password);
 		const rembChck = document.getElementById('rememberMe');
 		console.log('step1');
@@ -23,6 +28,25 @@ function login() {
 			localStorage.setItem('password', password);
 		}	  
       showApp(user);
+    } else {
+        login_err.textContent = "Niepoprawne dane przy logowaniu";
+    }
+}
+
+async function checkCredentials(username, password) {
+    const payload = {username, password};
+    const creds = await fetch(server_address+'/loginCheck',{
+        method:"POST",
+        body:JSON.stringify(payload),
+        headers:{
+            'Content-type' : 'application/json'
+        }
+    });
+
+    if(creds.status === 200){
+        return 1;
+    } else{
+        return 0
     }
 }
 
@@ -34,9 +58,38 @@ async function sendRequestTest(){
 
 let username_check = 0;
 const username_reg = document.getElementById('username_reg');
+const user_err = document.getElementById('err_name');
+
 function validateUsername(){
-    if(username_reg.value !== ""){
+    user = username_reg.value;
+    if(user !== "" && user.length>= 5){
+        chcekUsername(user);
+    } else {
+        userExists();
+    }
+}
+
+function userExists(){
+    user_err.textContent = "Uzytkownik o takiej nazwie istnieje lub wprowadzona zla nazwe";
+}
+
+async function chcekUsername(isUsername){
+    console.log('user being checked');
+    const payload = {isUsername};
+    console.log(payload);    
+    const isUser = await fetch(server_address+"/isUserHere",{
+        method: "POST",
+        body: JSON.stringify(payload),
+        headers:{
+            'Content-type' : 'application/json'
+        }
+    });
+
+    if(isUser.status === 200){
+        user_err.textContent = "";
         username_check = 1;
+    } else{
+        userExists();
     }
 }
 
@@ -80,16 +133,34 @@ function validateCheckPassword(){
 
 
 function register(){
+    
     const sumCheck = 3;
     let sum = email_check + password_check + username_check;
     console.log(sum)
-
+    registerUser("Tadam", "Tadam123", "Tadam@mail.pl");
     //do stuff
     if(sumCheck === sum){
         showApp(username_reg.value);
+        registerUser(username_reg.value, password_reg.value, email_reg.value);
     }
 }
 
+async function registerUser(username, password, email){
+    const payload = {username, password, email};
+    console.log(payload);    
+    const res = await fetch(server_address+"/addUser",{
+        method: "POST",
+        body: JSON.stringify(payload),
+        headers:{
+            'Content-type' : 'application/json'
+        },
+    });
+    
+    if(res.status === 400){
+        console.log("hejooo");
+        userExists();
+    }
+}
 
 let initial_value = 0;
 const eyeIcon = document.querySelectorAll('.passwordEye');
@@ -170,11 +241,20 @@ window.onload = () => {
         element.addEventListener('click', changePasswordVis)
     });
     document.getElementById('registerBtn').addEventListener('click', showRegister);
-    document.getElementById('registerMeID').addEventListener('click', register);
+    document.getElementById('registerMeID').addEventListener('click', (e)=>{
+        e.preventDefault();
+        //debugger;
+        //live server robil reload po wyslaniu...
+        register();
+    });
     email_reg.addEventListener('input', validateEmail);
     password_reg.addEventListener('input', validatePassword);
     password_reg_check.addEventListener('input', validateCheckPassword);
     username_reg.addEventListener('input', validateUsername);
+
+    window.addEventListener("beforeunload", () => {
+    console.log("PAGE IS RELOADING / LEAVING");
+    });
 	//document.getElementById('rememberMe').addEventListener('click', rememberCheck);
 
     const user = localStorage.getItem('user');

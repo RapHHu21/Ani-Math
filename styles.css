@@ -87,7 +87,7 @@ button {
   gap: 8px;
 }
 
-.register p{
+.register p, .login p{
   font-size: 0.8rem;
   color: rgb(167, 0, 0);
   width: 100%;
@@ -110,10 +110,6 @@ button {
 
   h2 {
     font-size: 2.5rem;
-  }
-
-  p {
-    font-size: 2rem;
   }
 
   input {
