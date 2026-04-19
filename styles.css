@@ -65,7 +65,8 @@ button {
 
 .resultImg {
   margin-top: 20px;
-  max-width: 400px;
+  max-width: 250px;
+  max-height: 250px;
   width: 100%;
   display: none;
 }
@@ -118,5 +119,10 @@ button {
 
   button {
     font-size: 1.2rem;
+  }
+
+  .resultImg {
+    max-width: 450px;
+    max-height: 450px;
   }
 }

@@ -8,8 +8,8 @@ const badReact = ["bleh","bored","facepalm","angry", "nope"];
 
 
 function generateQuestion() {
-    const a = Math.floor(Math.random() * 10);
-    const b = Math.floor(Math.random() * 10);
+    const a = Math.floor(Math.random() * 15);
+    const b = Math.floor(Math.random() * 15);
     correctAnswer = a + b;
     document.getElementById('question').innerText = `Solve: ${a} + ${b} = ?`;
 }
@@ -216,6 +216,7 @@ function showPassword(){
 }
 
 function logOut(){
+    localStorage.clear();
     hideApp();
 }
 
@@ -249,11 +250,11 @@ function getResponse(reaction){
 
 function getCategory(type){
     if(type === "good"){
-        const a = Math.floor(Math.random() * 4);
+        const a = Math.floor(Math.random() * 5);
         return goodReact[a];
     }
     if(type === "bad"){
-        const a = Math.floor(Math.random() * 4);
+        const a = Math.floor(Math.random() * 5);
         return badReact[a];
     }
 }
@@ -304,12 +305,9 @@ window.onload = () => {
     const user = localStorage.getItem('user');
 	const password = localStorage.getItem('password');
 
-    //localStorage.clear(); --- clear ls if logout
-
     if (user && password) showApp(user);
 
-//     if ('serviceWorker' in navigator) {
-//       navigator.serviceWorker.register('sw.js');
-//     }
-// commented cuz cached files breaks my css
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js');
+    }
 };

@@ -3,7 +3,13 @@
   "short_name": "Ani-Math",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#4CAF50",
-  "icons": []
+  "background_color": "#f5f5f5",
+  "theme_color": "#f5f5f5",
+  "icons": [
+    {
+        "src":"assets/icons/animath_resized.png",
+        "sizes": "512x512",
+        "type": "image/png"
+    }
+  ]
 }

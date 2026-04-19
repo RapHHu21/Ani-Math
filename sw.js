@@ -1,8 +1,9 @@
-const CACHE_NAME = 'math-app-v1';
+const CACHE_NAME = 'ani-math-v1';
 const urlsToCache = [
   './',
   './index.html',
   './styles.css',
+  './styles_2.css',
   './scripts.js'
 ];
 
