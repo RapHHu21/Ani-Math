@@ -1,9 +1,7 @@
 const express = require('express');
-const bcryptjs = require('bcryptjs');
 const fs = require('fs');
 const cors = require('cors');
 const { error } = require('console');
-const { parseArgs } = require('util');
 const app = express();
 
 app.use(cors());
@@ -12,29 +10,23 @@ app.use(express.text());
 
 
 app.listen(8888, ()=>{
-    console.log('uwu');
+    console.log('listening');
 });
 
 app.get("/elo", (req, res)=>{
-    console.log("uwu2");
-    res.send("uwu");
+    res.send("working");
 })
 
 app.get('/',(req, res)=>{
-    let message = "piwo123";
-    let hashMsg = bcryptjs.hashSync(message, 10);
-    console.log(hashMsg + " :hash1");
-    res.status(200).send("hejka");
+    res.status(200).send("working2");
 });
 
 app.get('/testMsg', (req, res)=>{
-    console.log("hejka2");
+    console.log("test good");
     res.status(200).send("OK");
 });
 
 app.post('/addUser', (req, res)=>{
-    console.log("test1");
-
     const { username, password, email } = req.body;
     fs.readFile("simpleDB.json", "utf8", (err, fileData) => {
         if (err) {
@@ -53,7 +45,6 @@ app.post('/addUser', (req, res)=>{
         const isUserInDB = jsonData.users.find(u=>u.username === username);
 
         if(isUserInDB){
-            console.log('tutaj');
             return res.status(400).json({error:"User already exists"});
         } else {
             jsonData.users.push({ username, password, email });
@@ -112,7 +103,6 @@ const {username, password} = req.body;
         if(isUserInDB){
             const isPasswordGood = jsonData.users.find(p=>p.password === password);
             if(isPasswordGood){
-                console.log("haslo git");
                 return res.status(200).json({error:"user exists"});
             }else{
                 return res.status(400).json({status:"password is wrong"});    
