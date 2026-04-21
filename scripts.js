@@ -306,8 +306,4 @@ window.onload = () => {
 	const password = localStorage.getItem('password');
 
     if (user && password) showApp(user);
-
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js');
-    }
 };
